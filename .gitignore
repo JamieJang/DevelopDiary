@@ -3,3 +3,4 @@ __pycache__
 ddenv
 db.sqlite3
 .DS_Store
+*.swp
