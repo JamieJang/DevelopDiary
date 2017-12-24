@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third-party lib
+    'django_summernote',
+
+    # Local lib
     'diary',
 ]
 
@@ -121,7 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = join(BASE_DIR, '..', 'staticfiles')
+STATIC_ROOT = join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = join(BASE_DIR, '..', 'media')
+MEDIA_ROOT = join(BASE_DIR, 'media')
+
+SUMMERNOTE_CONFIG = {
+    'iframe': False,
+    'width': '100%',
+}

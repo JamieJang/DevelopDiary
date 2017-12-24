@@ -1,21 +1,34 @@
 {% extends 'diary/base.html' %}
+{% load staticfiles %}
 
 {% block title %}개발일지{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+{% endblock %}
 
 {% block content %}
 <div class="wrap">
-    <div class="header-nav">
-        <div class="note">
-            <a href="#" class="nav-a">StudyNote</a>
-        </div>
-        <div class="diary">
-            <a href="#" class="nav-a">Diary</a>
-        </div>
+    <div class="note" onclick="click_a(this)">
+        <div>개발노트</div>
     </div>
-
-    <div class="post-box">
-
+    <div class="diary" onclick="click_a(this)">
+        <div>개발일지</div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    var click_a = (el) => {
+        var type = $(el).attr('class');
+        var url = '';
+        if(type == 'diary'){
+            url = "{% url 'diary:diary' %}";
+        } else if( type == 'note'){
+            url = "{% url 'diary:note' %}";
+        }
+        window.location.href = url;
+    }
+</script>
 {% endblock %}

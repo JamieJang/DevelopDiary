@@ -1,0 +1,17 @@
+{% extends 'diary/base.html' %}
+{% load staticfiles %}
+
+{% block title %} 개발일지 {% endblock %}
+
+{% block style %}
+<link rel='stylesheet' href="{% static 'css/diary.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="post-box">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-modal">New Note</button>
+    </div>
+
+    {% include 'diary/modals.html' %}
+{% endblock %}

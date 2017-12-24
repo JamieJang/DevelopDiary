@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="{% static 'dist/css/bootstrap.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    {% block style %}{% endblock %}
 </head>
 <body>
     {% block content %}{% endblock %}
@@ -16,5 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="{% static 'dist/js/bootstrap.js' %}"></script>
     <script defer src="{% static 'js/fontawesome-all.js' %}"></script>
+
+    {% block script %}{% endblock %}
 </body>
 </html>
