@@ -5,25 +5,28 @@
 {% block title %} 개발일지 {% endblock %}
 
 {% block style %}
-<link rel='stylesheet' href="{% static 'css/diary.css' %}" />
+<link rel='stylesheet' href="{% static 'css/post.css' %}" />
 {% endblock %}
 
 {% block content %}
     {% if user.is_superuser %}
-    <div id="new-diary-btn">
+    <div id="new-post-btn">
         <span class="fas fa-plus" data-toggle="modal" data-target="#form-modal"></span>
+        <a href="{% url 'diary:note' %}">
+            <span class="fas fa-exchange-alt"></span>
+        </a>
     </div>
     {% endif %}
 
     {% if diarys %}
-    <div class="diary-list">
+    <div class="post-list">
         {% for diary in diarys %}
-        <div class="each-diary" onclick="show_detail('{{ diary.id }}')">
-            <div class="diary-date">
-                <p class="create">Created {{ diary.created_at | naturaltime }}</p>
-                <p class="update">Updated {{ diary.updated_at | naturaltime }}</p>
+        <div class="each-post" onclick="show_detail('{{ diary.id }}')">
+            <div class="post-date">
+                <p class="create">Created  {{ diary.created_at | date:"Y/m/d H:i" }}</p>
+                <p class="update">Updated {{ diary.updated_at | date:"Y/m/d H:i" }}</p>
             </div>
-            <div class="diary-title">
+            <div class="post-title">
                 {{ diary.title }}
             </div>
         </div>
@@ -41,7 +44,7 @@
 {% block script %}
 <script>
     var show_detail = (pk) => {
-        window.location.href = 'detail/'+pk;
+        window.location.href = '/diary/detail/'+pk;
     }
 </script>
 {% endblock %}

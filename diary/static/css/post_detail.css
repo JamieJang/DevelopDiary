@@ -1,9 +1,9 @@
-.diary-detail-box{
+.post-detail-box{
     height:100%;
     margin: auto;
 }
 
-.diary-detail{
+.post-detail{
     width: 80%; height: 100%;
     padding: 2%;
     margin: auto;
@@ -12,12 +12,16 @@
     flex-direction: column;
     align-items: center;
 }
-
-.diary-detail > div{
+@media all and (max-width:767px){
+    .post-detail{
+        width: 100%;
+    }
+}
+.post-detail > div{
     width:100%;
 }
 
-.diary-title{
+.post-title{
     margin-bottom: 10px;
     font-size: 2rem;
     text-align: center;
@@ -25,11 +29,19 @@
     border-top:1px solid rgba(0,0,0,0.3);
     border-bottom:1px solid rgba(0,0,0,0.3);
 }
-.diary-info{
+.post-title p{
+    margin:0;
+}
+.category{
+    color: rgba(0,0,0,0.2);
+    font-size: 12px;
+}
+.post-info{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 2%;
+    font-size: 0.5rem;
 }
 .created{
     color:#afafaf;
@@ -50,7 +62,7 @@
     border: 1px solid #afafaf;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.4);
 }
- a.modify{
+a.modify{
     color: #194d80;
 }
 a.delete{
@@ -59,7 +71,7 @@ a.delete{
 a.back-to-list{
     color: #424d5e;
 }
-.diary-content{
+.post-content{
     margin-top: 15px;
     padding: 2%;
 }

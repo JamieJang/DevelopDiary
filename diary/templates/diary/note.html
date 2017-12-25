@@ -1,0 +1,60 @@
+{% extends 'diary/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block title %} 개발노트 {% endblock %}
+
+{% block style %}
+<link rel='stylesheet' href="{% static 'css/post.css' %}" />
+{% endblock %}
+
+{% block content %}
+    {% if user.is_superuser %}
+    <div id="new-post-btn">
+        <span class="fas fa-plus" data-toggle="modal" data-target="#form-modal"></span>
+        <a href="{% url 'diary:diary' %}">
+            <span class="fas fa-exchange-alt"</span>
+        </a>
+    </div>
+    {% endif %}
+
+    {% if notes %}
+    <div class="category-box">
+        {% for category in category_list %}
+            <div class="each-cate">
+                <a href="{% url 'diary:note-category' category.name %}">{{ category.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="post-list">
+        {% for note in notes %}
+        <div class="each-post" onclick="show_detail('{{ note.id }}')">
+            <div class="post-date">
+                <p class="create">Created {{ note.created_at | date:"Y/m/d H:i" }}</p>
+                <p class="update">Updated {{ note.updated_at | date:"Y/m/d H:i" }}</p>
+            </div>
+            <div class="post-category">
+                [ {{ note.category }} ]
+            </div>
+            <div class="post-title">
+                {{ note.title }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-data-msg">
+        작성된 노트가 없습니다.
+    </div>
+    {% endif %}
+
+    {% include 'diary/modals.html' %}
+{% endblock %}
+
+{% block script %}
+<script>
+    var show_detail = (pk) => {
+        window.location.href = '/note/detail/'+pk;
+    }
+</script>
+{% endblock %}

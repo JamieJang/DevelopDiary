@@ -49,6 +49,44 @@ class DiaryDelete(View):
 class NotePage(View):
     def get(self,request):
         notes = Note.objects.select_related('category').prefetch_related('tags').all()
+        category_list = Category.objects.all()
+        form = NoteForm()
+
+        return render(request,'diary/note.html',{
+            'type':"note",
+            'notes':notes,
+            'category_list':category_list,
+            'form':form,
+        })
+    def post(self,request):
+        form = NoteForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('diary:note')
+class NoteDetail(View):
+    def get(self,request,pk):
+        note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
+        form = NoteForm(instance=note)
+        return render(request,'diary/note_detail.html', {'note':note,'form':form})
+
+    def post(self,request,pk):
+        note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
+        form = NoteForm(request.POST, request.FILES, instance=note)
+        referer = request.META.get('HTTP_REFERER')
+        if form.is_valid():
+            form.save()
+            return redirect(referer)
+
+class NoteDelete(View):
+    def get(self,request,pk):
+        note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
+        note.delete()
+        return redirect("diary:note")
+
+class NoteByCategory(View):
+    def get(self,request,name):
+        notes = Note.objects.select_related('category').prefetch_related('tags').\
+                filter(category__name=name)
         form = NoteForm()
 
         return render(request,'diary/note.html',{
@@ -56,5 +94,4 @@ class NotePage(View):
             'notes':notes,
             'form':form,
         })
-    def post(self,request):
-        pass
+

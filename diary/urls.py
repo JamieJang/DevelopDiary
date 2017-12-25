@@ -10,4 +10,7 @@ urlpatterns = [
     path('diary/detail/<int:pk>/',views.DiaryDetail.as_view(), name='diary-detail'),
     path('diary/delete/<int:pk>/',views.DiaryDelete.as_view(), name="diary-delete"),
     re_path(r'^note/$',views.NotePage.as_view(), name="note"),
+    path('note/detail/<int:pk>/',views.NoteDetail.as_view(),name="note-detail"),
+    path('note/delete/<int:pk>/', views.NoteDelete.as_view(), name="note-delete"),
+    path('note/category/<str:name>/', views.NoteByCategory.as_view(), name="note-category"),
 ]

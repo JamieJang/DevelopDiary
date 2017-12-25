@@ -1,38 +1,59 @@
-#new-diary-btn{
+#new-post-btn{
     position: fixed;
     bottom: 20px; right: 20px;
     font-size: 1.5rem;
     cursor: pointer;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#new-post-btn a{
+    margin-top: 5px;
+    color:#000;
+}
+.category-box{
+    margin: 20px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.each-cate{
+    margin: 0 2%;
 }
 
-.diary-list{
+.post-list{
     display:flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     padding: 25px;
 }
-.each-diary{
+.each-post{
     width: 200px; height:200px;
     margin: 15px;
     padding: 5px;
     border: 1px solid #eee;
+    text-align: center;
 
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-transition: 0.2s ease;
     transition: 0.2s ease;
 }
-.each-diary:hover{
+.each-post:hover{
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
     -webkit-transition: 0.2s ease;
     transition: 0.2s ease;
 }
 
-.diary-date{
+.post-date{
     margin-bottom: 10px;
     font-size: 10px;
 }
-.diary-date p{
+.post-date p{
     margin:0;
 }
 .create{
@@ -40,6 +61,11 @@
 }
 .update{
     color: #2f85b0;
+}
+
+.post-category{
+    color: #008080;
+    margin-bottom: 10px;
 }
 
 .no-data-msg{

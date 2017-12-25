@@ -1,8 +1,7 @@
 {% extends 'diary/base.html' %}
 {% load staticfiles %}
-{% load humanize %}
 
-{% block title %}{{ diary.title }}{% endblock %}
+{% block title %}{{ note.title }}{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/post_detail.css' %}" />
@@ -14,27 +13,29 @@
             <a href="#" class="modify" data-toggle="modal" data-target="#form-modal">
                 <span class="far fa-edit"></span>
             </a>
-            <a href="{% url 'diary:diary-delete' diary.id %}" class="delete">
+            <a href="{% url 'diary:note-delete' note.id %}" class="delete">
                 <span class="far fa-trash-alt"></span>
             </a>
-            <a href="{% url 'diary:diary' %}" class="back-to-list">
+            <a href="{% url 'diary:note' %}" class="back-to-list">
                 <span class="fas fa-list"></span>
             </a>
         </div>
 
         <div class="post-detail">
             <div class="post-title">
-                {{ diary.title }}
+                <p>{{ note.title }}</p>
             </div>
             <div class="post-info">
-                <div class="created">created {{ diary.created_at | date:"Y/m/d H:i" }}</div>
-                <div class="updated">updated {{ diary.updated_at | date:"Y/m/d H:i" }}</div>
+                <div class="created">created {{ note.created_at | date:"Y/m/d H:i" }}</div>
+                <div class="category">
+                    <a href="{% url 'diary:note-category' note.category %}">[{{ note.category }}]</a>
+                </div>
+                <div class="updated">updated {{ note.updated_at | date:"Y/m/d H:i" }}</div>
             </div>
             <div class="post-content">
-                {{ diary.content | safe }}
+                {{ note.content | safe }}
             </div>
         </div>
     </div>
     {% include 'diary/modals.html' %}
 {% endblock %}
-
