@@ -18,17 +18,22 @@
     </div>
     {% endif %}
 
+    <div style="margin:15px; color:#b3cde0; border-bottom:1px solid #b3cde0;">
+        <h2>개발일지</h2>
+    </div>
+
     {% if diarys %}
     <div class="post-list">
         {% for diary in diarys %}
         <div class="each-post" onclick="show_detail('{{ diary.id }}')">
+            <div class="post-title">
+                {{ diary.title }}
+            </div>
             <div class="post-date">
                 <p class="create">Created  {{ diary.created_at | date:"Y/m/d H:i" }}</p>
                 <p class="update">Updated {{ diary.updated_at | date:"Y/m/d H:i" }}</p>
             </div>
-            <div class="post-title">
-                {{ diary.title }}
-            </div>
+
         </div>
         {% endfor %}
     </div>

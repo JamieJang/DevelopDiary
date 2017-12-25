@@ -18,6 +18,10 @@
     </div>
     {% endif %}
 
+    <div style="margin: 15px; color:#6497b1; border-bottom: 1px solid #6497b1">
+        <h2>개발노트</h2>
+    </div>
+
     {% if notes %}
     <div class="category-box">
         {% for category in category_list %}
@@ -29,16 +33,18 @@
     <div class="post-list">
         {% for note in notes %}
         <div class="each-post" onclick="show_detail('{{ note.id }}')">
-            <div class="post-date">
-                <p class="create">Created {{ note.created_at | date:"Y/m/d H:i" }}</p>
-                <p class="update">Updated {{ note.updated_at | date:"Y/m/d H:i" }}</p>
-            </div>
+
             <div class="post-category">
                 [ {{ note.category }} ]
             </div>
             <div class="post-title">
                 {{ note.title }}
             </div>
+            <div class="post-date">
+                <p class="create">Created {{ note.created_at | date:"Y/m/d H:i" }}</p>
+                <p class="update">Updated {{ note.updated_at | date:"Y/m/d H:i" }}</p>
+            </div>
+
         </div>
         {% endfor %}
     </div>
