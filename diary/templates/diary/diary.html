@@ -1,5 +1,6 @@
 {% extends 'diary/base.html' %}
 {% load staticfiles %}
+{% load humanize %}
 
 {% block title %} 개발일지 {% endblock %}
 
@@ -8,10 +9,39 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="post-box">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-modal">New Note</button>
+    {% if user.is_superuser %}
+    <div id="new-diary-btn">
+        <span class="fas fa-plus" data-toggle="modal" data-target="#form-modal"></span>
     </div>
+    {% endif %}
 
+    {% if diarys %}
+    <div class="diary-list">
+        {% for diary in diarys %}
+        <div class="each-diary" onclick="show_detail('{{ diary.id }}')">
+            <div class="diary-date">
+                <p class="create">Created {{ diary.created_at | naturaltime }}</p>
+                <p class="update">Updated {{ diary.updated_at | naturaltime }}</p>
+            </div>
+            <div class="diary-title">
+                {{ diary.title }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+    {% else %}
+    <div class="no-data-msg">
+        작성된 일지가 없습니다.
+    </div>
+    {% endif %}
     {% include 'diary/modals.html' %}
+{% endblock %}
+
+{% block script %}
+<script>
+    var show_detail = (pk) => {
+        window.location.href = 'detail/'+pk;
+    }
+</script>
 {% endblock %}

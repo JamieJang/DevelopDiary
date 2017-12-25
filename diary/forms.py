@@ -21,7 +21,7 @@ class NoteForm(forms.ModelForm):
 
 class DiaryForm(forms.ModelForm):
     class Meta:
-        model = Note
+        model = Diary
         fields = ['title','content',]
         widgets = {
             'title':forms.TextInput(attrs={

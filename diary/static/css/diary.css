@@ -1,6 +1,49 @@
-input#id_title{
-    margin: 10px 0;
+#new-diary-btn{
+    position: fixed;
+    bottom: 20px; right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
-#diary-submit{
-    width: 100%;
+
+.diary-list{
+    display:flex;
+    flex-wrap: wrap;
+    padding: 25px;
+}
+.each-diary{
+    width: 200px; height:200px;
+    margin: 15px;
+    padding: 5px;
+    border: 1px solid #eee;
+
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
+.each-diary:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
+
+.diary-date{
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+.diary-date p{
+    margin:0;
+}
+.create{
+    color: rgba(0,0,0,0.3);
+}
+.update{
+    color: #2f85b0;
+}
+
+.no-data-msg{
+    margin: 50px auto;
+    text-align: center;
+    font-size: 50px;
 }

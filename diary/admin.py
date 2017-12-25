@@ -7,12 +7,12 @@ admin.site.register(Category)
 admin.site.register(Tag)
 
 @admin.register(Note)
-class NoteAdmin(SummernoteModelAdmin):
+class NoteAdmin(admin.ModelAdmin):
     list_display = ['id','title','category','created_at','updated_at']
     list_display_links = ['id','title']
 
 @admin.register(Diary)
-class DiaryAdmin(SummernoteModelAdmin):
-    list_display = ['id','title','created_at','updated_at']
+class DiaryAdmin(admin.ModelAdmin):
+    list_display = ['id','title','content','created_at','updated_at']
     list_display_links = ['id','title']
 

@@ -1,0 +1,40 @@
+{% extends 'diary/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block title %}{{ diary.title }}{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/diary_detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <div class="diary-detail-box">
+        <div class="conf">
+            <a href="#" class="modify" data-toggle="modal" data-target="#form-modal">
+                <span class="far fa-edit"></span>
+            </a>
+            <a href="{% url 'diary:diary-delete' diary.id %}" class="delete">
+                <span class="far fa-trash-alt"></span>
+            </a>
+            <a href="{% url 'diary:diary' %}" class="back-to-list">
+                <span class="fas fa-list"></span>
+            </a>
+        </div>
+
+        <div class="diary-detail">
+            <div class="diary-title">
+                {{ diary.title }}
+            </div>
+            <div class="diary-info">
+                <div class="created">created {{ diary.created_at | naturaltime }}</div>
+                <div class="updated">updated {{ diary.updated_at | naturaltime }}</div>
+            </div>
+            <div class="diary-content">
+                {{ diary.content | safe }}
+            </div>
+        </div>
+    </div>
+    {% include 'diary/modals.html' %}
+{% endblock %}
+

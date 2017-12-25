@@ -22,7 +22,29 @@ class DiaryPage(View):
     def post(self,request):
         form = DiaryForm(request.POST, request.FILES)
         if form.is_valid():
-            pass
+            form.save()
+            return redirect('diary:diary')
+
+class DiaryDetail(View):
+    def get(self,request,pk):
+        diary = Diary.objects.get(pk=pk)
+        form = DiaryForm(instance=diary)
+        return render(request,'diary/diary_detail.html', {'diary':diary, 'form':form})
+
+    def post(self,request,pk):
+        diary = Diary.objects.get(pk=pk)
+        form = DiaryForm(request.POST, request.FILES, instance=diary)
+        referer = request.META.get('HTTP_REFERER')
+        if form.is_valid():
+            form.save()
+            return redirect(referer)
+
+class DiaryDelete(View):
+    def get(self,request,pk):
+        diary = Diary.objects.get(pk=pk)
+        diary.delete()
+        return redirect('diary:diary')
+
 
 class NotePage(View):
     def get(self,request):
