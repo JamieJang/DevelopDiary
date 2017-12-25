@@ -13,6 +13,17 @@
     margin-top: 5px;
     color:#000;
 }
+#page-type{
+    margin: 15px;
+    color: #6497b1;
+    border-bottom: 1px solid #6497b1;
+}
+#note-page{
+    color: #6497b1;
+}
+#diary-page{
+    color: #b3cde0;
+}
 .category-box{
     margin: 20px;
     display:flex;
@@ -90,4 +101,14 @@
     margin: 50px auto;
     text-align: center;
     font-size: 50px;
+}
+.page-nums{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    margin-top: 40px;
+}
+.page-nums a{
+    margin-right: 3px;
 }

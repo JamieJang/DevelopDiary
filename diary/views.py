@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views import View
 from django.http import HttpResponse
 
@@ -10,8 +11,18 @@ def Index(request):
 
 class DiaryPage(View):
     def get(self,request):
-        diarys = Diary.objects.all()
+        diary_list = Diary.objects.all()
         form = DiaryForm()
+        paginator = Paginator(diary_list, 18) 
+
+        cur_page = request.GET.get('page')
+        try:
+            diarys = paginator.page(cur_page)
+        except PageNotAnInteger:
+            diarys = paginator.page(1)
+        except EmptyPage:
+            diarys = paginator.page(last_page)
+            
 
         return render(request, 'diary/diary.html', {
             'type':"diary",
@@ -48,21 +59,46 @@ class DiaryDelete(View):
 
 class NotePage(View):
     def get(self,request):
-        notes = Note.objects.select_related('category').prefetch_related('tags').all()
+        note_list = Note.objects.select_related('category').prefetch_related('tags').all()
         category_list = Category.objects.all()
         form = NoteForm()
+        paginator = Paginator(note_list, 18) 
 
-        return render(request,'diary/note.html',{
+        cur_page = request.GET.get('page')
+        try:
+            notes = paginator.page(cur_page)
+        except PageNotAnInteger:
+            notes = paginator.page(1)
+        except EmptyPage:
+            notes = paginator.page(last_page)
+            
+
+        return render(request, 'diary/note.html', {
             'type':"note",
             'notes':notes,
-            'category_list':category_list,
             'form':form,
+            'category_list':category_list,
         })
+
     def post(self,request):
         form = NoteForm(request.POST,request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('diary:note')
+            category = Category.objects.get(pk=request.POST.get('category'))
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+            raw_tags = request.POST.get('tags').split(',')
+            note = Note(category=category,title=title,content=content)
+            note.save()
+            for tag in raw_tags:
+                tag = tag.strip().replace(' ','_')
+                t = Tag.objects.get_or_create(name=tag)
+                t[0].save()
+                note.tags.add(t[0])
+
+            return redirect("diary:note")
+        else:
+            return redirect(request.META.get('HTTP_REFERER'))
+
 class NoteDetail(View):
     def get(self,request,pk):
         note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
@@ -87,11 +123,62 @@ class NoteByCategory(View):
     def get(self,request,name):
         notes = Note.objects.select_related('category').prefetch_related('tags').\
                 filter(category__name=name)
+        category_list = Category.objects.all()
         form = NoteForm()
 
         return render(request,'diary/note.html',{
             'type':"note",
             'notes':notes,
+            'category_list':category_list,
             'form':form,
         })
+
+    def post(self,request,name):
+        form = NoteForm(request.POST,request.FILES)
+        referer = request.META.get('HTTP_REFERER')
+        if form.is_valid():
+            category = Category.objects.get(pk=request.POST.get('category'))
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+            raw_tags = request.POST.get('tags').split(',')
+            note = Note(category=category,title=title,content=content)
+            note.save()
+            for tag in raw_tags:
+                tag = tag.strip().replace(' ','_')
+                t = Tag.objects.get_or_create(name=tag)
+                t[0].save()
+                note.tags.add(t[0])
+
+        return redirect(referer)
+
+
+class NoteByTags(View):
+    def get(self,request,name):
+        notes = Note.objects.select_related('category').prefetch_related('tags').filter(tags__name__icontains=name)
+        category_list = Category.objects.all()
+        form = NoteForm()
+
+        return render(request,'diary/note.html',{
+            'type':"note",
+            'notes':notes,
+            'category_list':category_list,
+            'form':form,
+        })
+    def post(self,request,name):
+        form = NoteForm(request.POST,request.FILES)
+        referer = request.META.get('HTTP_REFERER')
+        if form.is_valid():
+            category = Category.objects.get(pk=request.POST.get('category'))
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+            raw_tags = request.POST.get('tags').split(',')
+            note = Note(category=category,title=title,content=content)
+            note.save()
+            for tag in raw_tags:
+                tag = tag.strip().replace(' ','_')
+                t = Tag.objects.get_or_create(name=tag)
+                t[0].save()
+                note.tags.add(t[0])
+
+        return redirect(referer)
 

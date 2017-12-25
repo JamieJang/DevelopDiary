@@ -18,8 +18,8 @@
     </div>
     {% endif %}
 
-    <div style="margin: 15px; color:#6497b1; border-bottom: 1px solid #6497b1">
-        <h2>개발노트</h2>
+    <div id="page-type"> 
+        <h2><a href="{% url 'diary:note' %}" id="note-page">개발노트</a></h2>
     </div>
 
     {% if notes %}
@@ -47,6 +47,28 @@
 
         </div>
         {% endfor %}
+    </div>
+
+    <div class="page-nums">
+        {% if notes.has_previous %}
+            <a href="?page={{ notes.previous_page_number }}">&laquo;</a>
+        {% else %}
+            <a disabled>&laquo;</a>
+        {% endif %}
+
+        {% for x in notes.paginator.page_range %}  
+            {% if x == notes.number %}
+                <a disabled>{{ x }}</a>
+            {% else %}
+                <a href="?page={{x}}">{{ x }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if notes.has_next %}
+            <a href="?page={{ notes.next_page_number }}">&raquo;</a>
+        {% else %}
+            <a disabled>&raquo;</a>
+        {% endif %}
     </div>
     {% else %}
     <div class="no-data-msg">

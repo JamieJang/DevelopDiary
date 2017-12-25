@@ -18,8 +18,8 @@
     </div>
     {% endif %}
 
-    <div style="margin:15px; color:#b3cde0; border-bottom:1px solid #b3cde0;">
-        <h2>개발일지</h2>
+    <div id="page-type">
+        <h2><a href="{% url 'diary:diary' %}" id="diary-page">개발일지</a></h2>
     </div>
 
     {% if diarys %}
@@ -36,6 +36,28 @@
 
         </div>
         {% endfor %}
+    </div>
+    <div class="page-nums">
+        {% if diarys.has_previous %}
+            <a href="?page={{ diarys.previous_page_number }}">&laquo;</a>
+        {% else %}
+            <a disabled>&laquo;</a>
+        {% endif %}
+
+        {% for x in diarys.paginator.page_range %}  
+            {% if x == diarys.number %}
+                <a disabled>{{ x }}</a>
+            {% else %}
+                <a href="?page={{x}}">{{ x }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if diarys.has_next %}
+            <a href="?page={{ diarys.next_page_number }}">&raquo;</a>
+        {% else %}
+            <a disabled>&raquo;</a>
+        {% endif %}
+
     </div>
     </div>
     {% else %}

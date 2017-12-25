@@ -5,8 +5,9 @@ div{
     padding:0;
     margin:0;
 }
-input#id_title{
-    margin: 10px 0;
+#post-form input,
+#post-form select{
+    margin-bottom: 10px;
 }
 #diary-submit{
     width: 100%;

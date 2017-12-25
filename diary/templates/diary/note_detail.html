@@ -24,6 +24,14 @@
         <div class="post-detail">
             <div class="post-title">
                 <p>{{ note.title }}</p>
+                <div class="post-tags">
+                {% if note.tags.all.0.name %}
+                    {% for tag in note.tags.all %}
+                        <a href="{% url 'diary:note-tags' tag.name %}">{{ tag.name }}</a>
+                    {% endfor %}
+                {% endif %}
+                </div>
+
             </div>
             <div class="post-info">
                 <div class="created">created {{ note.created_at | date:"Y/m/d H:i" }}</div>
