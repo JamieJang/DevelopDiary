@@ -13,6 +13,6 @@ class NoteAdmin(admin.ModelAdmin):
 
 @admin.register(Diary)
 class DiaryAdmin(admin.ModelAdmin):
-    list_display = ['id','title','content','created_at','updated_at']
+    list_display = ['id','title','content','created_at']
     list_display_links = ['id','title']
 

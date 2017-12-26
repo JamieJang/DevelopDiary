@@ -30,8 +30,7 @@
                 {{ diary.title }}
             </div>
             <div class="post-date">
-                <p class="create">Created  {{ diary.created_at | date:"Y/m/d H:i" }}</p>
-                <p class="update">Updated {{ diary.updated_at | date:"Y/m/d H:i" }}</p>
+                <p class="diary-create">{{ diary.created_at | naturalday }}</p>
             </div>
 
         </div>

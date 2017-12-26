@@ -86,12 +86,20 @@
 .post-date{
     flex:1;
     font-size: 10px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .post-date p{
     margin:0;
 }
 .create{
     color: rgba(0,0,0,0.3);
+}
+.diary-create{
+    color: #2f85b0; 
+    font-size: 12px;
 }
 .update{
     color: #2f85b0;
