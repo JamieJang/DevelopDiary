@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views import View
 from django.http import HttpResponse
+
+import re
 
 from .models import Category, Tag, Note, Diary
 from .forms import NoteForm, DiaryForm
@@ -38,12 +40,12 @@ class DiaryPage(View):
 
 class DiaryDetail(View):
     def get(self,request,pk):
-        diary = Diary.objects.get(pk=pk)
+        diary = get_object_or_404(Diary,pk=pk)
         form = DiaryForm(instance=diary)
         return render(request,'diary/diary_detail.html', {'diary':diary, 'form':form})
 
     def post(self,request,pk):
-        diary = Diary.objects.get(pk=pk)
+        diary = get_object_or_404(Diary,pk=pk)
         form = DiaryForm(request.POST, request.FILES, instance=diary)
         referer = request.META.get('HTTP_REFERER')
         if form.is_valid():
@@ -52,7 +54,7 @@ class DiaryDetail(View):
 
 class DiaryDelete(View):
     def get(self,request,pk):
-        diary = Diary.objects.get(pk=pk)
+        diary = get_object_or_404(Diary,pk=pk)
         diary.delete()
         return redirect('diary:diary')
 
@@ -86,14 +88,14 @@ class NotePage(View):
             category = Category.objects.get(pk=request.POST.get('category'))
             title = request.POST.get('title')
             content = request.POST.get('content')
-            raw_tags = request.POST.get('tags').split(',')
+            tags = re.findall(r'#\w+',request.POST.get('tags'))
             note = Note(category=category,title=title,content=content)
             note.save()
-            for tag in raw_tags:
-                tag = tag.strip().replace(' ','_')
-                t = Tag.objects.get_or_create(name=tag)
-                t[0].save()
-                note.tags.add(t[0])
+            for tag in tags:
+                tag = tag[1:]
+                t = Tag.objects.get_or_create(name=tag)[0]
+                t.save()
+                note.tags.add(t)
 
             return redirect("diary:note")
         else:
@@ -101,21 +103,28 @@ class NotePage(View):
 
 class NoteDetail(View):
     def get(self,request,pk):
-        note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
+        note = get_object_or_404(Note,pk=pk)
         form = NoteForm(instance=note)
-        return render(request,'diary/note_detail.html', {'note':note,'form':form})
+        return render(request,'diary/note_detail.html', {'type':'note-detail','note':note,'form':form})
 
     def post(self,request,pk):
-        note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
+        note = get_object_or_404(Note,pk=pk)
         form = NoteForm(request.POST, request.FILES, instance=note)
         referer = request.META.get('HTTP_REFERER')
         if form.is_valid():
-            form.save()
+            tags = re.findall(r'#\w+',request.POST.get('tags'))
+            note = form.save()
+            note.save()
+            for tag in tags:
+                tag = tag[1:]
+                t = Tag.objects.get_or_create(name=tag)[0]
+                t.save()
+                note.tags.add(t)
             return redirect(referer)
 
 class NoteDelete(View):
     def get(self,request,pk):
-        note = Note.objects.select_related('category').prefetch_related('tags').get(pk=pk)
+        note = Note.get_object_or_404(Note,pk=pk)
         note.delete()
         return redirect("diary:note")
 

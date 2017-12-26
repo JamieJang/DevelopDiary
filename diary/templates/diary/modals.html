@@ -20,6 +20,14 @@
                 <form method="post" id="post-form">
                     {% csrf_token %}
                     {% for field in form %}
+                        {% if field.label == 'Content' %}
+                            {% if type == 'note' %}
+                            <input type="text" name="tags" class="form-control" placeholder="#tag 형식으로 태그를 달아주세요" />
+                            {% elif type == 'note-detail' %}
+                            <input type="text" name="tags" class="form-control" placeholder="#tag 형식으로 태그를 달아주세요" 
+                                value={% for tag in note.tags.all %}#{{tag.name}}&nbsp;{% endfor %} />
+                            {% endif %}
+                        {% endif %}
                         {{ field | safe }}
                     {% endfor %}
                     <input type="submit" class="btn btn-outline-primary" id="diary-submit"/>

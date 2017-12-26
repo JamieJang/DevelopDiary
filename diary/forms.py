@@ -5,14 +5,10 @@ from django_summernote.fields import SummernoteTextField
 from .models import Category, Tag, Note, Diary
 
 class NoteForm(forms.ModelForm):
-    tags = forms.CharField(required=False,widget=forms.TextInput(
-						attrs={
-							'class':'form-control',
-							'placeholder':'컴마로 구분해서 태그를 작성하세요.'
-						}))
+
     class Meta:
         model = Note
-        fields = ['category','title','tags','content',]
+        fields = ['category','title','content',]
         widgets = {
             'title':forms.TextInput(attrs={
                 'class':'form-control',
