@@ -10,6 +10,7 @@
 
 {% block content %}
     <div class="post-detail-box">
+    {% if user.is_superuser %}
         <div class="conf">
             <a href="#" class="modify" data-toggle="modal" data-target="#form-modal">
                 <span class="far fa-edit"></span>
@@ -21,7 +22,7 @@
                 <span class="fas fa-list"></span>
             </a>
         </div>
-
+    {% endif %}
         <div class="post-detail">
             <div class="post-title">
                 {{ diary.title }}
