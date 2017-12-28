@@ -4,6 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="개발일지"/>
+	<meta property="og:description" content="공부한 내용을 기록하고, 개발자로서의 하루하루를 기록하는 공간"/>
+	<meta property="og:image" content="{% static 'img/diary-og.jpg' %}"/>
+
     <title>{% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'dist/css/bootstrap.css' %}" />
