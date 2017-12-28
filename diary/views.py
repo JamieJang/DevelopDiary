@@ -124,7 +124,7 @@ class NoteDetail(View):
 
 class NoteDelete(View):
     def get(self,request,pk):
-        note = Note.get_object_or_404(Note,pk=pk)
+        note = get_object_or_404(Note,pk=pk)
         note.delete()
         return redirect("diary:note")
 
