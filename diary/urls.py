@@ -16,4 +16,6 @@ urlpatterns = [
     path('note/delete/<int:pk>/', views.NoteDelete.as_view(), name="note-delete"),
     path('note/category/<str:name>/', views.NoteByCategory.as_view(), name="note-category"),
     path('note/tag/<str:name>/',views.NoteByTags.as_view(),name="note-tags"),
+
+    path('note/<str:query>/',views.SearchNote.as_view(), name="search-note"),
 ]

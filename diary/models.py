@@ -24,7 +24,7 @@ class Note(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['id']
+        ordering = ['-id']
 
 class Diary(models.Model):
     title = models.CharField(max_length=255)

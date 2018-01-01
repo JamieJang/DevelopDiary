@@ -191,3 +191,16 @@ class NoteByTags(View):
 
         return redirect(referer)
 
+class SearchNote(View):
+    def get(self, request, query):
+        notes = Note.objects.select_related('category').prefetch_related('tags').\
+            filter(tags__name__icontains=query)
+        category_list = Category.objects.all()
+        form = NoteForm()
+
+        return render(request,'diary/note.html',{
+            'type':"note",
+            'notes':notes,
+            'category_list':category_list,
+            'form':form,
+        })

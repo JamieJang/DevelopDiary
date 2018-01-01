@@ -20,6 +20,9 @@
 
     <div id="page-type"> 
         <h2><a href="{% url 'diary:note' %}" id="note-page">개발노트</a></h2>
+        <div id="search-box">
+            <input type="text" name="word" placeholder="검색" id="search-word" />
+        </div>
     </div>
 
     {% if notes %}
@@ -84,5 +87,23 @@
     var show_detail = (pk) => {
         window.location.href = '/note/detail/'+pk;
     }
+
+    $(document).ready(function(){
+
+        $("#search-word").focusin(function() {
+            $("#search-word").css("width", "100%");
+        });
+        $("#search-word").focusout(function () {
+            $("#search-word").css({"width":"50px"});
+            $("#search-word").val("");
+        });
+        $("#search-word").keyup(function(key){
+            var word = $("#search-word").val();
+            if(key.keyCode==13){
+                window.location.href="/note/"+word;
+            }
+        });
+    })
+    
 </script>
 {% endblock %}
