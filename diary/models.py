@@ -27,12 +27,18 @@ class Note(models.Model):
         ordering = ['-id']
 
 class Diary(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255,blank=True,null=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        title = self.content[3:12]
+        print(title)
+        self.title = title
+        super(Diary,self).save(*args,**kwargs)
 
     class Meta:
         ordering = ['-id']

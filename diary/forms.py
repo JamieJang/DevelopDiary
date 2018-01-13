@@ -23,12 +23,8 @@ class NoteForm(forms.ModelForm):
 class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
-        fields = ['title','content',]
+        fields = ['content']
         widgets = {
-            'title':forms.TextInput(attrs={
-                'class':'form-control',
-                'placeholder':'제목',
-            }),
             'content': SummernoteWidget(attrs={
                 'class':'form-control',
                 'placeholder':'기록, 기록 또 기록..',
